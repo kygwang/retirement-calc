@@ -4,6 +4,7 @@ import store from "../store";
 import vueCustomSlider from "../../examples/firstquiz/components/vue-slider";
 import * as RetirementOptions from "../../examples/firstquiz/views/RetirementOptions";
 import { roundOff } from "../../examples/util/round-of";
+import { tax_table_2020 } from "./TaxTable";
 // Set the deductions from retirement contribution from W2 Income and/or Business Expenses
 export function addTotalDeduction() {
   let filingStatus = store.state.userInformation.userInput.tax_filing_status;
@@ -69,11 +70,11 @@ export function setSliderMax() {
       Math.min(19500, incorporatedEarnings)
     );
     slider.businessMax_individual401k = roundOff(
-      Math.min(37500,Math.round(0.25 * salary))
+      Math.min(37500, Math.round(0.25 * salary))
     );
     // sep-Ira slider's max
     slider.businessMax_sepIra = roundOff(
-      Math.min(57000,Math.round(0.25 * salary))
+      Math.min(57000, Math.round(0.25 * salary))
     );
     // simpleIra slider's max
     slider.personalMax_simpleIra = roundOff(
@@ -90,10 +91,12 @@ export function setSliderMax() {
       Math.min(19500, netBizEarnings)
     );
     slider.businessMax_individual401k = roundOff(
-      Math.min(37500,Math.round(0.20 * netBizEarnings))
+      Math.min(37500, Math.round(0.2 * netBizEarnings))
     );
     // sep-Ira slider's max
-    slider.businessMax_sepIra = roundOff(Math.min(57000,Math.round(0.20 * netBizEarnings)));
+    slider.businessMax_sepIra = roundOff(
+      Math.min(57000, Math.round(0.2 * netBizEarnings))
+    );
     // simpleIra slider's max
     slider.personalMax_simpleIra = roundOff(Math.min(13500, netBizEarnings));
     slider.businessMax_simpleIra = roundOff(Math.round(0.03 * netBizEarnings));
@@ -306,3 +309,24 @@ function taxCalc() {
 
 // Potential retirement Balance
 // Principal (total contribution amount)* 1 + (8% interest rate)^(65 - Age)
+
+export const progressiveTax = userInput => {
+  const { tax_filing_status, salary } = userInput;
+  const percent = value => Number(value) / 100;
+  const activeTaxTable = tax_table_2020[tax_filing_status];
+  let sum = 0;
+  Object.keys(activeTaxTable).forEach(item => {
+    if (
+      Number(salary) > activeTaxTable[item][0] &&
+      (Number(salary) < activeTaxTable[item][1] ||
+        activeTaxTable[item][1] === "Infinity")
+    ) {
+      if (activeTaxTable[item][0] == 0) {
+        sum += Number(activeTaxTable[item][1]) * percent(item);
+      } else {
+        sum +=
+          (Number(salary) - Number(activeTaxTable[item][0])) * percent(item);
+      }
+    }
+  });
+};

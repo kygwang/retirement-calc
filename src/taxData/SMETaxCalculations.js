@@ -108,11 +108,7 @@ export function setSliderMax() {
   return slider;
 }
 
-// Adjust deductions based on retirement account contribution modified
-
-// Out of pocket money: how much would've been added to your pocket without retirement contribution
-// (Income - Tax balance before contribution) - (Income - Tax balance after contribution - contribution)
-
+// progressive tax calculations to address the w2 tax that's not being calculated from Track Tax / Abound Tax Api's services
 export const progressiveTax = userInput => {
   const { tax_filing_status, salary } = userInput;
   const percent = value => Number(value) / 100;
@@ -135,3 +131,6 @@ export const progressiveTax = userInput => {
   });
   return sum;
 };
+
+// Out of pocket money: how much would've been added to your pocket without retirement contribution
+// (Income - Tax balance before contribution) - (Income - Tax balance after contribution - contribution)

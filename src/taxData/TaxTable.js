@@ -87,24 +87,3 @@ export const tax_table_2021 = {
     "37": [314151, Infinity, 0.37, 84496.75]
   }
 };
-
-export const progressiveTax = userInput => {
-  const { tax_filing_status, salary } = userInput;
-  const percent = value => Number(value) / 100;
-  const activeTaxTable = tax_table_2020[tax_filing_status];
-  let sum = 0;
-  Object.keys(activeTaxTable).forEach(item => {
-    if (
-      Number(salary) > activeTaxTable[item][0] &&
-      (Number(salary) < activeTaxTable[item][1] ||
-        activeTaxTable[item][1] === "Infinity")
-    ) {
-      if (activeTaxTable[item][0] == 0) {
-        sum += Number(activeTaxTable[item][1]) * percent(item);
-      } else {
-        sum +=
-          (Number(salary) - Number(activeTaxTable[item][0])) * percent(item);
-      }
-    }
-  });
-};

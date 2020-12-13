@@ -325,8 +325,10 @@ export const progressiveTax = userInput => {
         sum += Number(activeTaxTable[item][1]) * percent(item);
       } else {
         sum +=
-          (Number(salary) - Number(activeTaxTable[item][0])) * percent(item);
+          (Number(salary) - Number(activeTaxTable[item][0])) * percent(item) +
+          Number(activeTaxTable[item][3]);
       }
     }
   });
+  return sum;
 };

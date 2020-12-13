@@ -383,7 +383,6 @@ export default {
   watch: {
     dataValue(newVal) {
       if (this.showOkButton()) {
-        console.log(this.question);
         this.responseAnswer = personalizedAnswerMessages(
           this.question,
           QuestionType

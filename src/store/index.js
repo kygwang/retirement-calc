@@ -10,24 +10,28 @@ Vue.use(Vuex);
 const userInformation = {
   namespaced: true,
   state: {
+    progressiveTax: 0,
     userInput: {
       tax_filing_status: "headOfHousehold",
       age: 37,
       salary: 32000,
-      entity: "llc",
+      entity: "llc"
     }, // data captured in RetirementReferral.vue input form
     incomeData: {}, // data formatted from the input for tax API
-    taxUpdate: {
-    }, // tax API's output data to be displayed in Results.vue
+    taxUpdate: {}, // tax API's output data to be displayed in Results.vue
     taxSummary: {
       totalIncome: 80000,
       profitAfterExpenses: 51111,
       profitAfterTaxes: 41111,
       totalDeduction: 20000,
-      w2Tax: 0
+      w2Tax: 0,
+      totalFederalTax: 0
     }
   },
   actions: {
+    setTotalFederalTax({ commit }, payload) {
+      commit("mutateTotalFederalTax", payload);
+    },
     getTotalIncome({ commit }) {
       commit("setTotalIncome");
     },
@@ -36,6 +40,9 @@ const userInformation = {
     },
     getProfitAfterTaxes({ commit }) {
       commit("setProfitAfterTaxes");
+    },
+    setProgressiveTax({ commit }, payload) {
+      commit("mutateProgressiveTax", payload);
     },
     async getTotalDeduction({ commit }) {
       try {
@@ -61,6 +68,12 @@ const userInformation = {
     }
   },
   mutations: {
+    mutateProgressiveTax(state, data) {
+      state.progressiveTax = data;
+    },
+    mutateTotalFederalTax(state, data) {
+      state.taxSummary.totalFederalTax = data;
+    },
     entry(state, data) {
       console.log(data);
       state.userInput = data;
@@ -88,7 +101,12 @@ const userInformation = {
       state.taxSummary.w2Tax = data;
     },
     setProfitAfterTaxes(state) {
-      state.taxSummary.profitAfterTaxes = Math.round((parseFloat(state.taxSummary.profitAfterExpenses) - parseFloat(state.taxUpdate.taxBalance)) * 100) / 100
+      state.taxSummary.profitAfterTaxes =
+        Math.round(
+          (parseFloat(state.taxSummary.profitAfterExpenses) -
+            parseFloat(state.taxUpdate.taxBalance)) *
+            100
+        ) / 100;
     },
     setTotalDeduction(state, data) {
       state.taxSummary.totalDeduction = data;

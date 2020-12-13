@@ -32,7 +32,10 @@
             <div class="row1Col1">
               <p>What's yours after taxes</p>
               <p class="numbers" v-if="profitAfterTaxes">
-                {{ profitAfterTaxes | currency("$", 0) }}
+                {{
+                  Math.abs(profitAfterTaxes - getProgressiveTax)
+                    | currency("$", 0)
+                }}
               </p>
             </div>
             <div class="row1Col2">
@@ -56,7 +59,7 @@
             <div class="row2Col1">
               <p>How much taxes you owe in 2020</p>
               <p style="color: #cc3939" class="numbers" v-if="taxBalance">
-                {{ taxBalance | currency("$", 0) }}
+                {{ (getProgressiveTax + taxBalance) | currency("$", 0) }}
               </p>
             </div>
             <div class="row2Col2">
@@ -151,7 +154,7 @@
                 <p>
                   <span class="addminus">-</span> Total Tax Balance:
                   <span class="dollaramount">
-                    {{ taxBalance | currency }}
+                    {{ (taxBalance + getProgressiveTax) | currency }}
                   </span>
                 </p>
               </div>
@@ -160,7 +163,7 @@
                 <p>
                   Profit after Taxes:
                   <span class="dollaramount" v-if="profitAfterTaxes">{{
-                    profitAfterTaxes | currency
+                    Math.abs(profitAfterTaxes - getProgressiveTax) | currency
                   }}</span>
                 </p>
               </div>
@@ -190,7 +193,7 @@
                 <p>
                   <span class="addminus">+</span> Federal Income Tax:
                   <span class="dollaramount">
-                    {{ progressiveTax(userInput) | currency }}
+                    {{ totalFederalTax | currency }}
                   </span>
                 </p>
               </div>
@@ -199,7 +202,7 @@
                 <p>
                   Total Tax Balance:
                   <span class="dollaramount" v-if="taxBalance">{{
-                    taxBalance | currency
+                    (taxBalance + getProgressiveTax) | currency
                   }}</span>
                 </p>
                 <p class="subtitleinfo2">
@@ -241,7 +244,7 @@
 
 <script>
 import Vue from "vue";
-import Vuex from "vuex";
+import Vuex, { mapActions } from "vuex";
 import infoIcon from "../components/info-icon";
 import Vue2Filters from "vue2-filters";
 import store from "../../../src/store";
@@ -281,11 +284,14 @@ export default {
       federalIncomeTax: (state) => state.taxUpdate.federalIncomeTax,
       effectiveTaxRate: (state) => state.taxUpdate.smartTaxRate,
       userInput: (state) => state.userInput,
+      totalDeduction: (state) => state.taxSummary.totalDeduction,
+      totalFederalTax: (state) => state.taxSummary.totalFederalTax,
+      getProgressiveTax: (state) => state.progressiveTax,
     }),
   },
   methods: {},
   mounted() {
-    console.log("progressive tax", progressiveTax(this.userInput));
+    console.log("progressive tax", this.getProgressiveTax);
   },
 };
 </script>

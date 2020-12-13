@@ -65,8 +65,10 @@ import QuestionModel, {
   LinkOption,
 } from "../../src/models/QuestionModel";
 import LanguageModel from "../../src/models/LanguageModel";
-import Vuex from "vuex";
+import Vuex, { mapActions } from "vuex";
 import * as taxApi from "../../src/api/TaxApi";
+import { progressiveTax } from "../../src/taxData/SMETaxCalculations";
+
 export default {
   name: "RetirementReferral",
   components: {
@@ -488,6 +490,7 @@ export default {
     document.removeEventListener("keyup", this.onKeyListener);
   },
   methods: {
+    ...mapActions(["setTotalFederalTax", "setProgressiveTax"]),
     onKeyListener($event) {
       // We've overriden the default "complete" slot so
       // we need to implement the "keyup" listener manually.
@@ -520,6 +523,19 @@ export default {
       /* Run dispatch to store the data for Results.vue */
 
       await this.$store.commit("userInformation/results", taxUpdate.data);
+      this.$store.commit(
+        "userInformation/mutateProgressiveTax",
+        progressiveTax(userInput)
+      );
+      this.$store.commit(
+        "userInformation/mutateTotalFederalTax",
+        progressiveTax(userInput) + taxUpdate.data.federalIncomeTax
+      );
+
+      console.log(
+        progressiveTax(userInput) + taxUpdate.data.federalIncomeTax,
+        taxUpdate.data.federalIncomeTax
+      );
       this.$store.dispatch("userInformation/getTaxSummary");
     },
     getData() {

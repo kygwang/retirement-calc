@@ -24,7 +24,6 @@ const userInformation = {
       profitAfterExpenses: 51111,
       profitAfterTaxes: 41111,
       totalDeduction: 20000,
-      w2Tax: 0,
       totalFederalTax: 0
     }
   },
@@ -48,14 +47,6 @@ const userInformation = {
       try {
         const response = await SMETaxCalculations.addTotalDeduction();
         commit("setTotalDeduction", response);
-      } catch (err) {
-        console.error(err);
-      }
-    },
-    async getW2Tax({ commit }) {
-      try {
-        const response = await SMETaxCalculations.w2Tax();
-        commit("setW2Tax", response);
       } catch (err) {
         console.error(err);
       }
@@ -96,9 +87,6 @@ const userInformation = {
       state.taxSummary.profitAfterExpenses =
         parseInt(state.taxSummary.totalIncome) -
         parseInt(state.userInput.expenses);
-    },
-    setW2Tax(state, data) {
-      state.taxSummary.w2Tax = data;
     },
     setProfitAfterTaxes(state) {
       state.taxSummary.profitAfterTaxes =

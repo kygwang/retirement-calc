@@ -50,7 +50,7 @@ export const tax_table_2021 = {
   marriedFilingSeparately_deduction: 12400,
   headOfHousehold_deduction: 18650,
   // federalTaxRate: [lowestAmount, highestAmount, rate (in decimal), taxDue]
-  single_tax_bracket: {
+  single: {
     "10": [0, 9950, 0.1, 0],
     "12": [9951, 40525, 0.12, 995],
     "22": [40526, 86375, 0.22, 4664],
@@ -59,7 +59,7 @@ export const tax_table_2021 = {
     "35": [209426, 523600, 0.35, 47843],
     "37": [523601, Infinity, 0.37, 157804.25]
   },
-  head_of_household_tax_bracket: {
+  headOfHousehold: {
     "10": [0, 14200, 0.1, 0],
     "12": [14201, 54200, 0.12, 1420],
     "22": [54201, 86350, 0.22, 6220],
@@ -68,7 +68,7 @@ export const tax_table_2021 = {
     "35": [209401, 523600, 0.35, 46385],
     "37": [523601, Infinity, 0.37, 156355]
   },
-  married_tax_bracket: {
+  married: {
     "10": [0, 19900, 0.1, 0],
     "12": [19901, 81050, 0.12, 1990],
     "22": [81051, 172750, 0.22, 9328],
@@ -77,7 +77,7 @@ export const tax_table_2021 = {
     "35": [418851, 628300, 0.35, 95686],
     "37": [628301, Infinity, 0.37, 168993.5]
   },
-  married_filing_separately_tax_bracket: {
+  marriedFilingSeparately: {
     "10": [0, 9950, 0.1, 0],
     "12": [9951, 40525, 0.12, 995],
     "22": [40526, 86375, 0.22, 4664],

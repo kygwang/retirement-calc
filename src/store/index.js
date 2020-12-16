@@ -70,7 +70,11 @@ const userInformation = {
       state.userInput = data;
     },
     results(state, data) {
-      state.taxUpdate = data;
+      const { taxBalance } = data;
+      state.taxUpdate = {
+        ...data,
+        totalTaxBalance: Math.abs(taxBalance + state.progressiveTax)
+      };
     },
     setTotalIncome(state) {
       if (
@@ -89,12 +93,18 @@ const userInformation = {
         parseInt(state.userInput.expenses);
     },
     setProfitAfterTaxes(state) {
-      state.taxSummary.profitAfterTaxes =
+      const rounded =
         Math.round(
           (parseFloat(state.taxSummary.profitAfterExpenses) -
             parseFloat(state.taxUpdate.taxBalance)) *
             100
         ) / 100;
+
+      state.taxSummary = {
+        ...state.taxSummary,
+        totalProfitAfterTaxes: Math.abs(rounded - state.progressiveTax),
+        profitAfterTaxes: rounded
+      };
     },
     setTotalDeduction(state, data) {
       state.taxSummary.totalDeduction = data;
@@ -146,10 +156,27 @@ const calculatorDrag = {
   }
 };
 
+const loader = {
+  namespaced: true,
+  state: {
+    loader: false
+  },
+  mutations: {
+    toggle(state, data) {
+      if (data) {
+        state.loader = data;
+      } else {
+        state.loader = !state.loader;
+      }
+    }
+  }
+};
+
 const store = new Vuex.Store({
   modules: {
     userInformation,
-    calculatorDrag
+    calculatorDrag,
+    loader
   }
 });
 

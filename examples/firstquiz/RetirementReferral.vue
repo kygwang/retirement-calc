@@ -1,6 +1,7 @@
 <template>
   <div>
     <router-view />
+    <loading :active.sync="loader" :can-cancel="false" loader="dots" />
 
     <flow-form
       ref="flowform"
@@ -68,11 +69,13 @@ import LanguageModel from "../../src/models/LanguageModel";
 import Vuex, { mapActions } from "vuex";
 import * as taxApi from "../../src/api/TaxApi";
 import { progressiveTax } from "../../src/taxData/SMETaxCalculations";
+import Loading from "vue-loading-overlay";
 
 export default {
   name: "RetirementReferral",
   components: {
     FlowForm,
+    Loading,
   },
   data() {
     return {
@@ -509,6 +512,7 @@ export default {
       this.onSendData();
     },
     async onSendData() {
+      this.$store.commit("loader/toggle");
       this.$refs.flowform.submitted = true;
       this.submitted = true;
       /* Set the data inputs for an object for Track tax api */
@@ -537,6 +541,7 @@ export default {
         taxUpdate.data.federalIncomeTax
       );
       this.$store.dispatch("userInformation/getTaxSummary");
+      this.$store.commit("loader/toggle");
     },
     getData() {
       window.data = {
@@ -558,6 +563,11 @@ export default {
       data.id.forEach((key, i) => (userInput[key] = data.answers[i]));
       return userInput;
     },
+  },
+  computed: {
+    ...Vuex.mapState("loader", {
+      loader: (state) => state.loader,
+    }),
   },
 };
 </script>

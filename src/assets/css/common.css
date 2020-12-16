@@ -19,7 +19,8 @@
   display: flex;
   justify-content: left;
   align-items: center;
-  width: 40%;
+  width: 100%;
+  max-width: 400px;
   margin-left: 20px;
 }
 

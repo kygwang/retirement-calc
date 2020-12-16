@@ -50,7 +50,7 @@
 
               <span v-if="question.inline" class="f-answer">
                 <div
-                  style="display: flex"
+                  class="asnwer-messages-parent"
                   v-if="
                     question.answerMessage ||
                     question.personalizedAnswerMessages
@@ -112,7 +112,7 @@
 
           <div v-if="!question.inline" class="f-answer f-full-width">
             <div
-              style="display: flex"
+              class="asnwer-messages-parent"
               v-if="
                 question.answerMessage || question.personalizedAnswerMessages
               "
@@ -394,3 +394,10 @@ export default {
   },
 };
 </script>
+
+<style >
+.asnwer-messages-parent {
+  display: flex;
+  width: 100%;
+}
+</style>

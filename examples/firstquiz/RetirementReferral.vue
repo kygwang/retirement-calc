@@ -501,12 +501,11 @@ export default {
       const taxUpdate = await taxApi.postTaxData(incomeData);
       console.log(taxUpdate.data);
       /* Run dispatch to store the data for Results.vue */
-
-      await this.$store.commit("userInformation/results", taxUpdate.data);
-      this.$store.commit(
+      await this.$store.commit(
         "userInformation/mutateProgressiveTax",
         progressiveTax(userInput)
       );
+      await this.$store.commit("userInformation/results", taxUpdate.data);
       this.$store.commit(
         "userInformation/mutateTotalFederalTax",
         progressiveTax(userInput) + taxUpdate.data.federalIncomeTax

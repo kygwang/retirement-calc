@@ -839,7 +839,6 @@ export default {
         this.sliders.individual401kBusiness
       );
       this.taxAvoided.individual401k = (
-        this.totalTaxBalance -
         +res?.taxBalance +
         +progressiveTax(this.userInput, individual401kPersonal)
       ).toFixed(2);
@@ -866,9 +865,7 @@ export default {
       const { simpleIraPersonal } = this.sliders;
       let res = await repostData(this.sliders.simpleIraBusiness);
       this.taxAvoided.simpleIra = (
-        this.totalTaxBalance -
-        +res?.taxBalance +
-        +progressiveTax(this.userInput, simpleIraPersonal)
+        +res?.taxBalance + +progressiveTax(this.userInput, simpleIraPersonal)
       ).toFixed(2);
       this.taxAdvantageRatio.simpleIra = Math.round(
         (this.taxAvoided.simpleIra /
@@ -882,7 +879,6 @@ export default {
       const { traditionalIraPersonal } = this.sliders;
       let res = await repostData(traditionalIraPersonal, "");
       this.taxAvoided.traditionalIra = (
-        this.totalTaxBalance -
         +res?.taxBalance +
         +progressiveTax(this.userInput, traditionalIraPersonal)
       ).toFixed(2);

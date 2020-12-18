@@ -704,7 +704,6 @@ export default {
         100
       );
       this.handleTaxAvoidedTooltip(res, "individual401k");
-      console.log("Simple IRA:" + progressiveTax(this.userInput, individual401kPersonal))
       return res;
     },
     async handleSepIraDrag() {

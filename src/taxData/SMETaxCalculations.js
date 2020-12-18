@@ -109,22 +109,23 @@ export function setSliderMax() {
 }
 
 // progressive tax calculations to address the w2 tax that's not being calculated from Track Tax / Abound Tax Api's services
-export const progressiveTax = userInput => {
-  const { tax_filing_status, salary } = userInput;
+export const progressiveTax = (userInput, minusNumber = 0) => {
+  const { tax_filing_status, salary: editedSalary = 0 } = userInput;
+  const salary = +editedSalary - minusNumber;
   const percent = value => Number(value) / 100;
   const activeTaxTable = tax_table_2020[tax_filing_status];
   let sum = 0;
   Object.keys(activeTaxTable).forEach(item => {
     if (
-      Number(salary) > activeTaxTable[item][0] &&
-      (Number(salary) < activeTaxTable[item][1] ||
+      salary > activeTaxTable[item][0] &&
+      (salary < activeTaxTable[item][1] ||
         activeTaxTable[item][1] === "Infinity")
     ) {
       if (activeTaxTable[item][0] == 0) {
         sum += Number(activeTaxTable[item][1]) * percent(item);
       } else {
         sum +=
-          (Number(salary) - Number(activeTaxTable[item][0])) * percent(item) +
+          (salary - Number(activeTaxTable[item][0])) * percent(item) +
           Number(activeTaxTable[item][3]);
       }
     }

@@ -36,6 +36,12 @@
               </p>
             </div>
             <div class="row1Col2">
+              <p>How much taxes you owe in 2020</p>
+              <p style="color: #cc3939" class="numbers" v-if="taxBalance">
+                {{ totalTaxBalance | currency("$", 0) }}
+              </p>
+            </div>
+            <div class="row1Col2">
               <p>
                 Amount of total deduction you quality for
                 <info-icon
@@ -49,38 +55,8 @@
                 {{ totalDeduction | currency("$", 0) }}
               </p>
             </div>
-            <div class="row1Col2">
-              <p>How much taxes you owe in 2020</p>
-              <p style="color: #cc3939" class="numbers" v-if="taxBalance">
-                {{ totalTaxBalance | currency("$", 0) }}
-              </p>
-            </div>
           </div>
         </div>
-        <!-- <div class="row2 flex">
-          <div class="row2box2">
-            <div class="row2Col1">
-              <p>How much taxes you owe in 2020</p>
-              <p style="color: #cc3939" class="numbers" v-if="taxBalance">
-                {{ totalTaxBalance | currency("$", 0) }}
-              </p>
-            </div>
-            <div class="row2Col2">
-              <div class="row2Col2Box flex1">
-                <router-link
-                  class="routemid"
-                  to="/retirement-options"
-                  aria-label="next page to retirement options"
-                >
-                  <p>
-                    Click here to see how much you can lower taxes with
-                    different retirement accounts
-                  </p>
-                </router-link>
-              </div>
-            </div>
-          </div>
-        </div> -->
         <div>
           <h4 class="taxbreakdowntext">Tax Breakdown For Year 2020 (In USD)</h4>
         </div>
@@ -225,10 +201,7 @@
                 to="/retirement-options"
                 aria-label="next page to retirement options"
               >
-                <p>
-                  Click here to see how much you can lower taxes with different
-                  retirement accounts
-                </p>
+                <p>Let's lower your taxes with the best retirement account</p>
               </router-link>
             </div>
           </div>
